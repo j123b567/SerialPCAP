@@ -13,3 +13,5 @@ usage: `serialpcap <portName> [<baudRate> [<frameGapMs]]`
 - `portName` is name of the port, e.g. COM1, /dev/ttyUSB0, ...
 - `baudrate` is speed of the serial port (default 9600)
 - `frameGapMs` is gap between frames in ms (default 10)
+
+It is possible to run this tool using Mono on Linux or using .Net framework on Windows.
