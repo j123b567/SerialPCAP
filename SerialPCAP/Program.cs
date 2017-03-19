@@ -34,7 +34,7 @@ namespace SerialPCAP
 				int frameGapMs = 10;
 				if (args.Length >= 3) frameGapMs = Int32.Parse(args[2]);
 				uint dlt = 147;
-				if (args.Length >= 3) dlt = UInt32.Parse(args[3]);
+				if (args.Length >= 4) dlt = UInt32.Parse(args[3]);
 
 				string outputFile = "serial-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + ".pcap";
 				var capture = new CaptureSerial(portName, baudRate, frameGapMs);
