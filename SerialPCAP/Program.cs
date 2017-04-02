@@ -42,6 +42,8 @@ namespace SerialPCAP
 			using (BinaryWriter writer = new BinaryWriter(File.Open(outputFile, FileMode.Create)))
 			{
 				Pcap.Header.Write(writer, dlt);
+				writer.Flush();
+
 				using (var capture = new CaptureSerial(portName, baudRate, frameGapMs))
 				{
 					while (true)
@@ -66,7 +68,7 @@ namespace SerialPCAP
 				{"b|baud=", "Serial port speed (default 9600)", (int b) => baudRate = b},
 				{"g|gap=", "Inter frame gap in miliseconds (default 10)", (int g) => frameGapMs = g},
 				{"d|dlt=", "Data link type in pcap format (default 147)", (uint d) => dlt = d},
-				{"o|output=", "Output file prefix", o => outputFilePrefix = o},
+				{"o|output=", "Output file prefix (defalut port name)", o => outputFilePrefix = o},
 				{"h|help", "Show this message and exit", h => shouldShowHelp = h != null},
 			};
 
@@ -101,7 +103,14 @@ namespace SerialPCAP
 
 			outputFile = outputFilePrefix + "-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + ".pcap";
 
-			RunCapture();
+			try
+			{
+				RunCapture();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Error occurred: " + e.Message);
+			}
 		}
 	}
 }
