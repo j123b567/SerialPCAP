@@ -11,13 +11,13 @@ Tool is only for command line,
 
 usage: `mono SerialPcap.exe [options] <portName>`
 
-Option|Description
-------+-----------
-`-b, --baud=VALUE`|Serial port speed (default 9600)
-`-g, --gap=VALUE`|Inter frame gap in miliseconds (default 10)
-`-d, --dlt=VALUE`|Data link type in pcap format (default 147)
-`-o, --output=VALUE`|Output file prefix (defalut port name)
-`-h, --help`|Show this message and exit
+Option | Description
+------ | -----------
+`-b, --baud=VALUE` | Serial port speed (default 9600)
+`-g, --gap=VALUE` | Inter frame gap in miliseconds (default 10)
+`-d, --dlt=VALUE` | Data link type in pcap format (default 147)
+`-o, --output=VALUE` | Output file prefix (defalut port name)
+`-h, --help` | Show this message and exit
 
 `portName` is `COM1`, `\\.\COM15` or `/dev/ttyUSB0` or similar definition.
 
