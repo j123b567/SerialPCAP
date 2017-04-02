@@ -37,7 +37,6 @@ namespace SerialPCAP
 				if (args.Length >= 4) dlt = UInt32.Parse(args[3]);
 
 				string outputFile = "serial-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + ".pcap";
-				var capture = new CaptureSerial(portName, baudRate, frameGapMs);
 
 				Console.WriteLine("Serial port: " + portName);
 				Console.WriteLine("Baud rate: " + baudRate + " Bd");
@@ -49,15 +48,22 @@ namespace SerialPCAP
 
 				using (BinaryWriter writer = new BinaryWriter(File.Open(outputFile, FileMode.Create)))
 				{
-					PcapHeader.Write(writer, dlt);
+					Pcap.Header.Write(writer, dlt);
 
-					while (capture.WritePacket(writer))
+					using (var capture = new CaptureSerial(portName, baudRate, frameGapMs))
 					{
-						writer.Flush();
+						while (true)
+						{
+							var packet = capture.CapturePacket();
+							if (packet != null)
+							{
+								packet.Write(writer);
+								writer.Flush();
+							}
+						}
 					}
 				}
 
-				capture.Close();
 			}
 		}
 	}

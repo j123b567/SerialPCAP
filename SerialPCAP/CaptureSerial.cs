@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 namespace SerialPCAP
 {
-	public class CaptureSerial
+	public class CaptureSerial : IDisposable
 	{
-		SerialPort m_serialPort;
-		Packet m_packet = null;
+		readonly static int MAX_BYTES_PER_PACKET = 300;
+		readonly SerialPort m_serialPort;
+		readonly List<byte> m_buffer = new List<byte>(MAX_BYTES_PER_PACKET);
 
 		public CaptureSerial(string portName, int baudRate, int readTimeout)
 		{
@@ -26,19 +28,26 @@ namespace SerialPCAP
 			m_serialPort.Close();
 		}
 
-		public bool WritePacket(BinaryWriter writer)
+		public Pcap.Packet CapturePacket()
 		{
+			Pcap.Packet packet = null;
+
 			try
 			{
 				while (true)
 				{
-					var b = (byte)m_serialPort.ReadByte();
-					if (m_packet == null)
+					var b = m_serialPort.ReadByte();
+					if (b < 0)
 					{
-						m_packet = new Packet();
+						throw new EndOfStreamException();
 					}
-					m_packet.Data.Add(b);
-					if (m_packet.Data.Count >= 300)
+					if (packet == null)
+					{
+						m_buffer.Clear();
+						packet = new Pcap.Packet();
+					}
+					m_buffer.Add((byte)b);
+					if (m_buffer.Count >= MAX_BYTES_PER_PACKET)
 					{
 						throw new TimeoutException();
 					}
@@ -46,13 +55,42 @@ namespace SerialPCAP
 			}
 			catch (TimeoutException)
 			{
-				if (m_packet != null)
+				if (packet != null)
 				{
-					m_packet.Write(writer);
-					m_packet = null;
+					packet.Data = m_buffer.ToArray();
 				}
 			}
-			return true;
+			catch (EndOfStreamException)
+			{
+				if (packet != null)
+				{
+					packet.Data = m_buffer.ToArray();
+				}
+				else {
+					throw;
+				}
+			}
+			return packet;
+		}
+
+		bool disposed = false;
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposed)
+				return;
+
+			if (disposing)
+			{
+				m_serialPort.Dispose();
+			}
+
+			disposed = true;
 		}
 	}
 }

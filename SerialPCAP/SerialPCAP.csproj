@@ -34,9 +34,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Packet.cs" />
-    <Compile Include="PcapHeader.cs" />
     <Compile Include="CaptureSerial.cs" />
+    <Compile Include="Pcap\Packet.cs" />
+    <Compile Include="Pcap\PcapHeader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pcap\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
