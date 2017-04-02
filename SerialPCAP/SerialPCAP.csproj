@@ -36,7 +36,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CaptureSerial.cs" />
     <Compile Include="Pcap\Packet.cs" />
-    <Compile Include="Pcap\PcapHeader.cs" />
+    <Compile Include="Pcap\Header.cs" />
+    <Compile Include="Mono.Options\Options.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pcap\" />
