@@ -8,10 +8,18 @@ This tool was created to capture Modbus-RTU on RS-485 but can be used to any oth
 Tutorial on using this capture is on YouTube https://www.youtube.com/watch?v=YtudbhexPv8
 
 Tool is only for command line,
-usage: `serialpcap <portName> [<baudRate> [<frameGapMs]]`
 
-- `portName` is name of the port, e.g. COM1, /dev/ttyUSB0, ...
-- `baudrate` is speed of the serial port (default 9600)
-- `frameGapMs` is gap between frames in ms (default 10)
+usage: `mono SerialPcap.exe [options] <portName>`
+
+Option|Description
+------+-----------
+`-b, --baud=VALUE`|Serial port speed (default 9600)
+`-g, --gap=VALUE`|Inter frame gap in miliseconds (default 10)
+`-d, --dlt=VALUE`|Data link type in pcap format (default 147)
+`-o, --output=VALUE`|Output file prefix (defalut port name)
+`-h, --help`|Show this message and exit
+
+`portName` is `COM1`, `\\.\COM15` or `/dev/ttyUSB0` or similar definition.
+
 
 It is possible to run this tool using Mono on Linux or using .Net framework on Windows.
