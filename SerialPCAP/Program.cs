@@ -20,6 +20,7 @@ namespace SerialPCAP
 
 		static void ShowHelp(OptionSet options)
 		{
+			Console.WriteLine("{0} v{1}", AssemblyExtensions.Description(), AssemblyExtensions.Version());
 			Console.WriteLine("usage: serialpcap [options] <portName>");
 			options.WriteOptionDescriptions(Console.Out);
 			Console.WriteLine();

@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
     <PlatformTarget>x86</PlatformTarget>
+    <IntermediateOutputPath>obj\x86\Debug</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -27,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
     <PlatformTarget>x86</PlatformTarget>
+    <IntermediateOutputPath>obj\x86\Release</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -38,6 +40,7 @@
     <Compile Include="Pcap\Packet.cs" />
     <Compile Include="Pcap\Header.cs" />
     <Compile Include="Mono.Options\Options.cs" />
+    <Compile Include="AssemblyExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pcap\" />
