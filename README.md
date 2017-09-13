@@ -1,7 +1,7 @@
 Serial port capture to PCAP
 ===========
 
-This tool can capture serial port traffic and store all data in PCAP format. It is later possible to open it by Wireshark and analyze it.
+This tool can capture serial port traffic and store all data in PCAP format. It is later possible to open it by Wireshark and analyze it. It is also possible to use realtime mode with named pipe instead of file.
 
 This tool was created to capture Modbus-RTU on RS-485 but can be used to any other similar traffic.
 
