@@ -10,13 +10,33 @@ namespace SerialPCAP
 		readonly SerialPort m_serialPort;
 		readonly List<byte> m_buffer = new List<byte>(MAX_BYTES_PER_PACKET);
 
-		public CaptureSerial(string portName, int baudRate, int readTimeout)
+		public CaptureSerial(string portName, int baudRate, char parity, int stopbits, int readTimeout)
 		{
 			m_serialPort = new SerialPort();
 			m_serialPort.PortName = portName;
 			m_serialPort.BaudRate = baudRate;
-			m_serialPort.Parity = Parity.None;
-			m_serialPort.StopBits = StopBits.One;
+			switch (Char.ToLower(parity))
+			{
+				case 'o':
+					m_serialPort.Parity = Parity.Odd;
+					break;
+				case 'e':
+					m_serialPort.Parity = Parity.Even;
+					break;
+				default:
+					m_serialPort.Parity = Parity.None;
+					break;
+			}
+			switch (stopbits)
+			{
+				case 1:
+				default:
+					m_serialPort.StopBits = StopBits.One;
+					break;
+				case 2:
+					m_serialPort.StopBits = StopBits.Two;
+					break;
+			}
 			m_serialPort.DataBits = 8;
 			m_serialPort.Handshake = Handshake.None;
 			m_serialPort.ReadTimeout = readTimeout;
