@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fj123b567%2FSerialPCAP.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fj123b567%2FSerialPCAP?ref=badge_shield)
+
 Serial port capture to PCAP
 ===========
 
@@ -37,3 +39,7 @@ It is possible to run the application in pipe mode, so you can see realtime traf
     mono SerialPcap -o /tmp/wspipe --pipe [options] <portName>
 
 More info on Wireshark capture pipes can be seen on https://wiki.wireshark.org/CaptureSetup/Pipes
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fj123b567%2FSerialPCAP.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fj123b567%2FSerialPCAP?ref=badge_large)
