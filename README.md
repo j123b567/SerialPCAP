@@ -21,6 +21,7 @@ Option | Description
 `-o, --output=VALUE` | Output file prefix (defalut port name)
 `--pipe` | Use named pipe instead of file
 `-h, --help` | Show this message and exit
+`-s, --stdout` | Use stdout instead of file
 
 `portName` is `COM1`, `\\.\COM15` or `/dev/ttyUSB0` or similar definition.
 
@@ -37,3 +38,10 @@ It is possible to run the application in pipe mode, so you can see realtime traf
     mono SerialPcap -o /tmp/wspipe --pipe [options] <portName>
 
 More info on Wireshark capture pipes can be seen on https://wiki.wireshark.org/CaptureSetup/Pipes
+
+
+Using stdout (realtime) mode in both Windows and Linux
+-----------
+Another useful option to see realtime traffic in Wireshark is to use stdout piping:
+
+    SerialPcap -s | wireshark -k -i -
