@@ -17,6 +17,7 @@ namespace SerialPCAP
 		static char parity = 'n';
 		static int stopbits = 1;
 		static bool pipe = false;
+		static bool stdout = false;
 
 		static void ShowHelp(OptionSet options)
 		{
@@ -51,27 +52,37 @@ namespace SerialPCAP
 
 		static void RunCapture()
 		{
-			Console.WriteLine("Serial port: " + portName);
-			Console.WriteLine("Baud rate: " + baudRate + " Bd");
-			Console.WriteLine("Parity: " + parity);
-			Console.WriteLine("Stopbits: " + stopbits);
-			Console.WriteLine("Frame gap: " + frameGapMs + " ms");
-			Console.WriteLine("DLT: " + dlt);
-			Console.WriteLine("Output file: " + outputFile);
-			Console.WriteLine();
-			Console.WriteLine("Starting capture (press Ctrl+c to stop)");
-
+			if (stdout == false)
+			{
+				Console.WriteLine("Serial port: " + portName);
+				Console.WriteLine("Baud rate: " + baudRate + " Bd");
+				Console.WriteLine("Parity: " + parity);
+				Console.WriteLine("Stopbits: " + stopbits);
+				Console.WriteLine("Frame gap: " + frameGapMs + " ms");
+				Console.WriteLine("DLT: " + dlt);
+				Console.WriteLine("Output file: " + outputFile);
+				Console.WriteLine();
+				Console.WriteLine("Starting capture (press Ctrl+c to stop)");
+			}
 
 			using (var capture = new CaptureSerial(portName, baudRate, parity, stopbits, frameGapMs))
 			{
-				if (pipe && Environment.OSVersion.Platform != PlatformID.Unix)
+				if (stdout)
+				{
+					using (BinaryWriter writer = new BinaryWriter(Console.OpenStandardOutput()))
+					{
+						Capture(capture, writer);
+					}
+				}
+				else if (pipe && Environment.OSVersion.Platform != PlatformID.Unix)
 				{
 					using (BinaryWriter writer = new BinaryWriter(new NamedPipeServerStream(outputFile, PipeDirection.Out)))
 					{
 						Capture(capture, writer);
 					}
 				}
-				else {
+				else
+				{
 					using (BinaryWriter writer = new BinaryWriter(File.Open(outputFile, FileMode.Create)))
 					{
 						Capture(capture, writer);
@@ -94,6 +105,7 @@ namespace SerialPCAP
 				{"o|output=", "Output file prefix or pipe (defalut port name)", o => outputFilePrefix = o},
 				{"pipe", "Use named pipe instead of file", p => pipe = p != null},
 				{"h|help", "Show this message and exit", h => shouldShowHelp = h != null},
+				{"s|stdout", "Use stdout instead of file", s => stdout = s != null},
 			};
 
 			List<string> extra;
@@ -127,7 +139,8 @@ namespace SerialPCAP
 				}
 				outputFile = outputFilePrefix;
 			}
-			else {
+			else
+			{
 				if (outputFilePrefix == "")
 				{
 					var s = portName.Split(new char[] { '/', '\\' });
