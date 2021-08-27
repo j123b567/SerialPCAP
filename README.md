@@ -44,4 +44,4 @@ Using stdout (realtime) mode in both Windows and Linux
 -----------
 Another useful option to see realtime traffic in Wireshark is to use stdout piping:
 
-    SerialPcap -s | wireshark -k -i -
+    SerialPcap -s <portName> | wireshark -k -i -
